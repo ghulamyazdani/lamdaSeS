@@ -1,5 +1,18 @@
 import boto3
 from botocore.exceptions import ClientError
+import pymysql
+
+
+connection = pymysql.connect(
+    endpoint, user=username, passwd=password, db=database_name)
+
+
+def query_data():
+    with connection.cursor() as cursor:
+        sql = "SELECT * FROM `users`"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        print(result)
 
 
 def send_email():
@@ -75,4 +88,5 @@ def send_email():
 
 def lambda_handler(event, context):
     # TODO implement
+    query_data()
     send_email()

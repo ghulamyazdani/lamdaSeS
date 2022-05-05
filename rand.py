@@ -1,24 +1,28 @@
 import boto3
 from botocore.exceptions import ClientError
-import pymysql
+import psycopg2
+import os
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
-connection = pymysql.connect(
-    endpoint, user=username, passwd=password, db=database_name)
-
-
-def query_data():
-    with connection.cursor() as cursor:
-        sql = "SELECT * FROM `users`"
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+def get_pg_con(user=USER,
+               password=NEWPASSVAL,
+               host=HOST,
+               dbname=DBNAME):
+    return psycopg2.connect(
+        dbname=dbname,
+        host=host,
+        user=user,
+        password=password)
 
 
 def send_email():
-    name = "Ghulam Yazdani"
+    name = "vinod verma"
     SENDER = "noreply@sager.ai"  # must be verified in AWS SES Email
-    RECIPIENT = "ghulam.yazdani@sager.ai"  # must be verified in AWS SES Email
+    RECIPIENT = "vinod.verma@sager.ai"  # must be verified in AWS SES Email
 
     # If necessary, replace us-west-2 with the AWS Region you're using for Amazon SES.
     AWS_REGION = "us-east-1"
@@ -88,5 +92,11 @@ def send_email():
 
 def lambda_handler(event, context):
     # TODO implement
-    query_data()
+    conn = get_pg_con()
+    cur = conn.cursor()
+    cur.execute("BEGIN")
+    cur.execute(
+        "SELECT * FROM sager_app.cust_health_history where tenant_id= 'anyclip';")
+    data = cur.fetchall()
+    logger.info(data)
     send_email()

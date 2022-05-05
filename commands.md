@@ -1,0 +1,1 @@
+aws ses create-template --cli-input-json file://SES_template.json

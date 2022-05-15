@@ -9,20 +9,3 @@ change_cust_health
 {'name': responseJson[0][0]["change_cust_health"],'age': '27'}
 
 
-"Destinations":[
-        {
-            "Destination":{
-                "ToAddresses":[
-                    "ghulam.yazdani@sager.ai"
-                ]
-                    
-            },
-        },
-        {
-            "Destination":{
-                "ToAddresses":[
-                    "ghulamyazdani12@gmail.com"
-                ]
-            },
-        },
-    ]
